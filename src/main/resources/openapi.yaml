@@ -1,0 +1,213 @@
+openapi: 3.0.4
+info:
+  description: Simple todo list api.
+  title: todo list api
+  version: 0.0.1
+servers:
+- url: /
+tags:
+- description: Operations about tasks
+  name: tasks
+paths:
+  /tasks:
+    get:
+      description: Return all tasks
+      operationId: getTasks
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: successful operation
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unexpected error
+      summary: Get all tasks
+      tags:
+      - tasks
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: tasks
+    post:
+      description: Create new task
+      operationId: postTasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: successful operation
+        "400":
+          description: Invalid input
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unexpected error
+      summary: Post new task
+      tags:
+      - tasks
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: tasks
+  /tasks/{taskId}:
+    delete:
+      description: Delete task
+      operationId: deleteTask
+      parameters:
+      - description: ID of task to delete
+        explode: false
+        in: path
+        name: taskId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: User deleted
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unexpected error
+      summary: Delete task
+      tags:
+      - tasks
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: tasks
+    get:
+      description: Return task by ID
+      operationId: getTaskById
+      parameters:
+      - description: ID of task to return
+        explode: false
+        in: path
+        name: taskId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: successfull operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Task not found
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unexpected error
+      summary: Get task by ID
+      tags:
+      - tasks
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: tasks
+    patch:
+      description: Update task
+      operationId: updateTask
+      parameters:
+      - description: ID of task to update
+        explode: false
+        in: path
+        name: taskId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: successfull operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Task not found
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unexpected error
+      summary: Update task
+      tags:
+      - tasks
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: tasks
+components:
+  schemas:
+    Task:
+      example:
+        due: 2000-01-23T04:56:07.000+00:00
+        description: description
+        id: 3
+        title: title
+        priority: high
+      properties:
+        id:
+          example: 3
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          enum:
+          - high
+          - medium
+          - low
+          type: string
+        due:
+          format: date-time
+          type: string
+      type: object
+    Error:
+      example:
+        code: code
+        message: error
+      properties:
+        code:
+          example: code
+          type: string
+        message:
+          example: error
+          type: string
+      type: object
