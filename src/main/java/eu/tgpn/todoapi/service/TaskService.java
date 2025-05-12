@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -37,5 +38,10 @@ public class TaskService {
         return taskRepository.findAll().stream()
                 .map(Task::toDTO)
                 .toList();
+    }
+
+    public Optional<TaskDTO> getTask(Integer taskId) {
+        logger.debug("Get task with id: {}", taskId);
+        return taskRepository.findById(taskId).map(Task::toDTO);
     }
 }

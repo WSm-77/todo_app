@@ -115,7 +115,7 @@ public interface TasksApi {
     )
 
     default ResponseEntity<TaskDTO> getTaskById(
-        @Parameter(name = "taskId", description = "ID of task to return", required = true, in = ParameterIn.PATH) @PathVariable Long taskId
+        @Parameter(name = "taskId", description = "ID of task to return", required = true, in = ParameterIn.PATH) @PathVariable Integer taskId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
