@@ -18,7 +18,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Task'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
           description: successful operation
         default:
           content:

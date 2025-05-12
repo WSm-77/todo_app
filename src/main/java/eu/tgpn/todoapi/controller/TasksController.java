@@ -9,11 +9,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen",
@@ -45,5 +47,11 @@ public class TasksController implements TasksApi {
         }
         taskService.add(taskDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Override
+    @GetMapping("/tasks")
+    public ResponseEntity<List<TaskDTO>> getTasks() {
+        return ResponseEntity.ok(taskService.getTasks());
     }
 }
