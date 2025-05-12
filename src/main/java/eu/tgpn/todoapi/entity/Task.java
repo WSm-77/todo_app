@@ -1,5 +1,6 @@
 package eu.tgpn.todoapi.entity;
 
+import eu.tgpn.todoapi.dto.TaskDTO;
 import eu.tgpn.todoapi.enums.PriorityEnum;
 import jakarta.persistence.*;
 
@@ -73,5 +74,9 @@ public class Task {
 
     public void setDue(OffsetDateTime due) {
         this.due = due;
+    }
+
+    public TaskDTO toDTO() {
+        return new TaskDTO(this.id, this.title, this.description, this.priority, this.due);
     }
 }

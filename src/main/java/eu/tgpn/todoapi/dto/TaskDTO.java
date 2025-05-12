@@ -33,6 +33,16 @@ public class TaskDTO {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime due;
 
+  public TaskDTO() {}
+
+  public TaskDTO(Integer id, String title, String description, PriorityEnum priority, OffsetDateTime due) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.priority = priority;
+    this.due = due;
+  }
+
   public TaskDTO id(Integer id) {
     this.id = id;
     return this;
@@ -42,7 +52,7 @@ public class TaskDTO {
    * Get id
    * @return id
    */
-  
+
   @Schema(name = "id", example = "3", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Integer getId() {
@@ -62,7 +72,7 @@ public class TaskDTO {
    * Get title
    * @return title
    */
-  
+
   @Schema(name = "title", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("title")
   public String getTitle() {
@@ -82,7 +92,7 @@ public class TaskDTO {
    * Get description
    * @return description
    */
-  
+
   @Schema(name = "description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("description")
   public String getDescription() {
@@ -102,7 +112,7 @@ public class TaskDTO {
    * Get priority
    * @return priority
    */
-  
+
   @Schema(name = "priority", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("priority")
   public PriorityEnum getPriority() {
@@ -122,7 +132,7 @@ public class TaskDTO {
    * Get due
    * @return due
    */
-  @Valid 
+  @Valid
   @Schema(name = "due", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("due")
   public OffsetDateTime getDue() {
@@ -178,4 +188,3 @@ public class TaskDTO {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

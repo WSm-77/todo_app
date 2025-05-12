@@ -9,6 +9,7 @@ import eu.tgpn.todoapi.dto.Error;
 import eu.tgpn.todoapi.dto.TaskDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
@@ -62,7 +65,7 @@ public interface TasksApi {
         value = "/tasks/{taskId}",
         produces = { "application/json" }
     )
-    
+
     default ResponseEntity<Void> deleteTask(
         @Parameter(name = "taskId", description = "ID of task to delete", required = true, in = ParameterIn.PATH) @PathVariable Long taskId
     ) {
@@ -110,7 +113,7 @@ public interface TasksApi {
         value = "/tasks/{taskId}",
         produces = { "application/json" }
     )
-    
+
     default ResponseEntity<TaskDTO> getTaskById(
         @Parameter(name = "taskId", description = "ID of task to return", required = true, in = ParameterIn.PATH) @PathVariable Long taskId
     ) {
@@ -147,7 +150,7 @@ public interface TasksApi {
         tags = { "tasks" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = TaskDTO.class))
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TaskDTO.class)))
             }),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
@@ -158,26 +161,17 @@ public interface TasksApi {
         value = "/tasks",
         produces = { "application/json" }
     )
-    
-    default ResponseEntity<TaskDTO> getTasks(
-        
-    ) {
+    default ResponseEntity<List<TaskDTO>> getTasks() {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"due\" : \"2000-01-23T04:56:07.000+00:00\", \"description\" : \"description\", \"id\" : 3, \"title\" : \"title\", \"priority\" : \"high\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"code\" : \"code\", \"message\" : \"error\" }";
+                    String exampleString = "[{ \"due\" : \"2000-01-23T04:56:07.000+00:00\", \"description\" : \"Task description\", \"id\" : 3, \"title\" : \"Task title\", \"priority\" : \"HIGH\" }]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }
         });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 
@@ -210,7 +204,7 @@ public interface TasksApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
+
     default ResponseEntity<TaskDTO> postTasks(
         @Parameter(name = "Task", description = "") @Valid @RequestBody(required = false) TaskDTO taskDTO
     ) {
@@ -263,7 +257,7 @@ public interface TasksApi {
         value = "/tasks/{taskId}",
         produces = { "application/json" }
     )
-    
+
     default ResponseEntity<TaskDTO> updateTask(
         @Parameter(name = "taskId", description = "ID of task to update", required = true, in = ParameterIn.PATH) @PathVariable Long taskId
     ) {
