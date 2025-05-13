@@ -259,8 +259,11 @@ public interface TasksApi {
     )
 
     default ResponseEntity<TaskDTO> updateTask(
-        @Parameter(name = "taskId", description = "ID of task to update", required = true, in = ParameterIn.PATH) @PathVariable Long taskId
-    ) {
+            @Parameter(name = "taskId", description = "ID of task to update", required = true, in = ParameterIn.PATH)
+            @PathVariable Integer taskId,
+            @Parameter(name = "Task", description = "")
+            @Valid @RequestBody(required = false) TaskDTO taskDTO)
+    {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
