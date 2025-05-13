@@ -91,4 +91,19 @@ public class TasksController implements TasksApi {
 
         return ResponseEntity.ok(updatedTaskOpt.get());
     }
+
+    public ResponseEntity<Void> deleteTask(
+            @Parameter(name = "taskId", description = "ID of task to delete", required = true, in = ParameterIn.PATH)
+            @PathVariable Integer taskId) {
+        if (taskId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (taskService.getTask(taskId).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        taskService.deleteTask(taskId);
+        return ResponseEntity.ok().build();
+    }
 }

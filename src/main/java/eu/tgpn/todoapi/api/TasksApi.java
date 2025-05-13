@@ -67,7 +67,7 @@ public interface TasksApi {
     )
 
     default ResponseEntity<Void> deleteTask(
-        @Parameter(name = "taskId", description = "ID of task to delete", required = true, in = ParameterIn.PATH) @PathVariable Long taskId
+        @Parameter(name = "taskId", description = "ID of task to delete", required = true, in = ParameterIn.PATH) @PathVariable Integer taskId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
