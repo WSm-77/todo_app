@@ -150,6 +150,11 @@ paths:
           format: int64
           type: integer
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
       responses:
         "200":
           content:

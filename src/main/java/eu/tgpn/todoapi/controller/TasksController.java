@@ -71,4 +71,24 @@ public class TasksController implements TasksApi {
 
         return ResponseEntity.ok(optionalTaskDTO.get());
     }
+
+    @Override
+    @PatchMapping("/tasks/{taskId}")
+    public ResponseEntity<TaskDTO> updateTask(
+            @Parameter(name = "taskId", description = "ID of task to update", required = true, in = ParameterIn.PATH)
+            @PathVariable Integer taskId,
+            @Parameter(name = "Task", description = "")
+            @Valid @RequestBody(required = false) TaskDTO taskDTO) {
+        if (taskId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<TaskDTO> updatedTaskOpt = taskService.updateTask(taskId, taskDTO);
+
+        if (updatedTaskOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updatedTaskOpt.get());
+    }
 }
