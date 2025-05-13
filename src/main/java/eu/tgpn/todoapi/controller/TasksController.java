@@ -44,7 +44,7 @@ public class TasksController implements TasksApi {
             return ResponseEntity.badRequest().build();
         }
         taskService.add(taskDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok(taskDTO);
     }
 
     @Override
