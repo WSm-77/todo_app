@@ -77,4 +77,9 @@ public class TaskService {
 
         return Optional.of(updatedTask.toDTO());
     }
+
+    public void deleteTask(Integer taskId) {
+        logger.debug("Delete task with id: {}", taskId);
+        taskRepository.deleteById(taskId);
+    }
 }
