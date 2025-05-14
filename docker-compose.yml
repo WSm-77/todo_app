@@ -11,6 +11,23 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo-app-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: ${DB_URL:-jdbc:postgresql://db:5432/todo}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME:-admin}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-admin}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRINGDOC_API_DOCS_VERSION: OPENAPI_3_0
+    restart: on-failure
+
 volumes:
   pgdata:
     driver: local
